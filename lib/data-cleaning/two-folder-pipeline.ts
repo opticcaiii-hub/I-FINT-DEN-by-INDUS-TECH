@@ -264,9 +264,26 @@ export async function processTwoFolderPipeline(params: {
       }
     }
 
-    // Extract Amounts
-    const rawDebit = raw.debit !== undefined ? raw.debit : (raw.debitPaisa !== undefined ? raw.debitPaisa : raw.debit_paisa);
-    const rawCredit = raw.credit !== undefined ? raw.credit : (raw.creditPaisa !== undefined ? raw.creditPaisa : raw.credit_paisa);
+    // Extract Amounts — check mapped canonical keys first, then common bank statement raw column names
+    const rawDebit = raw.debit !== undefined ? raw.debit
+      : (raw.debitPaisa !== undefined ? raw.debitPaisa
+      : (raw.debit_paisa !== undefined ? raw.debit_paisa
+      : (raw.withdrawal !== undefined ? raw.withdrawal
+      : (raw.withdrawals !== undefined ? raw.withdrawals
+      : (raw.Withdrawal !== undefined ? raw.Withdrawal
+      : (raw.Deposit !== undefined ? undefined  // Deposit is credit, not debit
+      : (raw['Dr'] !== undefined ? raw['Dr']
+      : (raw['Dr.'] !== undefined ? raw['Dr.']
+      : undefined))))))));
+    const rawCredit = raw.credit !== undefined ? raw.credit
+      : (raw.creditPaisa !== undefined ? raw.creditPaisa
+      : (raw.credit_paisa !== undefined ? raw.credit_paisa
+      : (raw.deposit !== undefined ? raw.deposit
+      : (raw.deposits !== undefined ? raw.deposits
+      : (raw.Deposit !== undefined ? raw.Deposit
+      : (raw['Cr'] !== undefined ? raw['Cr']
+      : (raw['Cr.'] !== undefined ? raw['Cr.']
+      : undefined)))))));
     const rawAmount = raw.amount !== undefined ? raw.amount : (raw.amountPaisa !== undefined ? raw.amountPaisa : raw.total);
 
     const isDebitPaisa = raw.debit === undefined && (raw.debitPaisa !== undefined || raw.debit_paisa !== undefined);

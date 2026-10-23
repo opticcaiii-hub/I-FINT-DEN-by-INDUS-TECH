@@ -40,44 +40,57 @@ export interface ColumnMapping {
 }
 
 export const ALIAS_DICTIONARY: Record<CanonicalField, string[]> = {
-  transaction_id: ['transaction_id', 'transaction id', 'tx id', 'txn id', 'transactionid', 'voucher_no', 'voucher no', 'voucher_id', 'entry_id'],
+  transaction_id: ['transaction_id', 'transaction id', 'tx id', 'txn id', 'transactionid', 'voucher_no', 'voucher no', 'voucher_id', 'entry_id', 'trans id', 'cheque no', 'cheque number', 'check no', 'check number', 'instrument no'],
   transaction_group_id: ['transaction_group_id', 'transaction_external_id', 'transaction external id', 'transaction_group', 'group_id', 'group id', 'external_id', 'external id', 'txn_group_id', 'tx_group_id'],
-  line_number: ['line_number', 'line number', 'line_no', 'line no', 'lineno', 'line', 'item_no', 'item no'],
+  line_number: ['line_number', 'line number', 'line_no', 'line no', 'lineno', 'line', 'item_no', 'item no', 'sr', 'sr no', 'sr.', 'sr. no', 's.no', 's no', 'serial', 'serial no', 'serial number', 'sno', '#'],
   transaction_description: ['transaction_description', 'transaction description', 'txn description', 'tx description', 'main description'],
   line_description: ['line_description', 'line description', 'sub description'],
-  memo: ['memo', 'narration', 'notes', 'reference narration', 'memo narration', 'extra narration'],
-  entry_date: ['date', 'txn date', 'posting date', 'entry date', 'invoice date', 'bill date', 'payment date', 'transaction date', 'entry_date'],
-  debit_paisa: ['debit', 'dr', 'debit amount', 'debit_paisa'],
-  credit_paisa: ['credit', 'cr', 'credit amount', 'credit_paisa'],
-  account_code: ['account', 'account code', 'coa', 'gl code', 'account_code', 'a/c code'],
-  description: ['description', 'narration', 'details', 'particulars', 'item description'],
-  reference_number: ['reference', 'ref no', 'invoice no', 'bill no', 'reference number', 'ref', 'invoice number', 'reference_number'],
-  counterparty_name: ['customer', 'customer name', 'vendor', 'supplier', 'vendor name', 'supplier name', 'payee'],
-  payment_method: ['payment mode', 'method', 'payment method'],
-  amount: ['amount', 'total amount', 'net amount', 'amount received'],
+  memo: ['memo', 'narration', 'notes', 'reference narration', 'memo narration', 'extra narration', 'remarks', 'remark', 'comment', 'comments'],
+  entry_date: ['date', 'txn date', 'posting date', 'entry date', 'invoice date', 'bill date', 'payment date', 'transaction date', 'entry_date', 'value date', 'valuedate', 'value_date', 'trans date', 'trans. date', 'txn_date', 'post date', 'booking date', 'stmt date', 'statement date'],
+  debit_paisa: ['debit', 'dr', 'dr.', 'debit amount', 'debit_paisa', 'debit_amount', 'withdrawal', 'withdrawals', 'withdraw', 'withdrawn', 'outflow', 'out', 'paid', 'paid amount', 'payment', 'payments', 'expense', 'expenses', 'dr amount', 'debit amt', 'debit (dr)', 'debit(dr)', 'money out', 'cash out'],
+  credit_paisa: ['credit', 'cr', 'cr.', 'credit amount', 'credit_paisa', 'credit_amount', 'deposit', 'deposits', 'deposited', 'inflow', 'in', 'received', 'received amount', 'receipt', 'receipts', 'income', 'cr amount', 'credit amt', 'credit (cr)', 'credit(cr)', 'money in', 'cash in'],
+  account_code: ['account', 'account code', 'coa', 'gl code', 'account_code', 'a/c code', 'gl', 'ledger', 'ledger code', 'account no', 'acct code', 'acct'],
+  description: ['description', 'narration', 'details', 'particulars', 'item description', 'transaction details', 'trans details', 'transaction narration', 'particular', 'desc'],
+  reference_number: ['reference', 'ref no', 'invoice no', 'bill no', 'reference number', 'ref', 'invoice number', 'reference_number', 'ref.', 'ref no.', 'reference no', 'reference no.', 'ref #', 'doc no', 'document no'],
+  counterparty_name: ['customer', 'customer name', 'vendor', 'supplier', 'vendor name', 'supplier name', 'payee', 'payer', 'party', 'party name', 'beneficiary', 'beneficiary name', 'remitter'],
+  payment_method: ['payment mode', 'method', 'payment method', 'payment type', 'mode', 'channel', 'instrument', 'instrument type'],
+  amount: ['amount', 'total amount', 'net amount', 'amount received', 'value', 'amt', 'sum', 'transaction amount', 'txn amount', 'trans amount', 'gross amount'],
   quantity: ['quantity', 'qty'],
   unit_price: ['unit price', 'rate', 'price'],
-  tax: ['tax', 'tax amount', 'gst', 'sales tax'],
-  total: ['total', 'gross total', 'invoice total'],
-  balance: ['balance', 'running balance'],
+  tax: ['tax', 'tax amount', 'gst', 'sales tax', 'vat', 'withholding tax', 'wht'],
+  total: ['total', 'gross total', 'invoice total', 'grand total', 'net total'],
+  balance: ['balance', 'running balance', 'closing balance', 'available balance', 'bal', 'bal.', 'closing bal', 'running bal', 'ledger balance', 'book balance'],
   employee_name: ['employee name', 'employee', 'staff name'],
   salary: ['salary', 'basic salary', 'gross salary'],
   allowances: ['allowances', 'total allowances'],
   deductions: ['deductions', 'total deductions'],
   net_pay: ['net pay', 'net salary', 'take home'],
-  bank_account: ['bank account', 'account number', 'bank a/c'],
+  bank_account: ['bank account', 'account number', 'bank a/c', 'a/c no', 'a/c number', 'account no'],
   category: ['category', 'expense category', 'type'],
   payment_status: ['payment status', 'status', 'paid'],
   item_description: ['item description', 'details']
 };
 
 export function autoMapColumns(headers: string[]): ColumnMapping[] {
+  // Pre-compute a helper that strips trailing dots, commas, colons and normalizes
+  const stripPunctuation = (s: string) => s.replace(/[.\s:,;()]+$/g, '').replace(/^[.\s:,;()]+/g, '').trim();
+  const stripAll = (s: string) => s.replace(/[^a-z0-9 ]/g, '').trim();
+
   return headers.map(header => {
     const normalizedHeader = header.toLowerCase().trim();
+    const strippedHeader = stripPunctuation(normalizedHeader);
+    const cleanedHeader = stripAll(normalizedHeader);
     
     // Check exact match in alias dictionary (High confidence)
+    // Try: original normalized, stripped punctuation, and fully cleaned
     for (const [field, aliases] of Object.entries(ALIAS_DICTIONARY)) {
-      if (aliases.includes(normalizedHeader)) {
+      if (
+        aliases.includes(normalizedHeader) ||
+        aliases.includes(strippedHeader) ||
+        aliases.includes(cleanedHeader) ||
+        aliases.some(a => stripPunctuation(a) === strippedHeader) ||
+        aliases.some(a => stripAll(a) === cleanedHeader && cleanedHeader.length >= 2)
+      ) {
         return {
           sourceColumn: header,
           targetField: field as CanonicalField,
@@ -93,7 +106,11 @@ export function autoMapColumns(headers: string[]): ColumnMapping[] {
 
     for (const [field, aliases] of Object.entries(ALIAS_DICTIONARY)) {
       for (const alias of aliases) {
-        const score = stringSimilarity(normalizedHeader, alias);
+        // Try fuzzy against both the original and stripped versions
+        const score1 = stringSimilarity(normalizedHeader, alias);
+        const score2 = stringSimilarity(strippedHeader, alias);
+        const score3 = stringSimilarity(cleanedHeader, stripAll(alias));
+        const score = Math.max(score1, score2, score3);
         if (score > highestScore) {
           highestScore = score;
           bestMatch = field as CanonicalField;
@@ -101,7 +118,7 @@ export function autoMapColumns(headers: string[]): ColumnMapping[] {
       }
     }
 
-    if (highestScore >= 0.85 && bestMatch) {
+    if (highestScore >= 0.80 && bestMatch) {
       return {
         sourceColumn: header,
         targetField: bestMatch,
