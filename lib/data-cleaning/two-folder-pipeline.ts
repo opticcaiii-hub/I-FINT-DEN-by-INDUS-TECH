@@ -136,11 +136,38 @@ export async function processTwoFolderPipeline(params: {
   }
 
   // 2. Fetch periods and client fiscal year calendar
-  const periodsRes = await query<{ id: number; period_name: string; start_date: string; end_date: string; is_locked: boolean }>(
-    `SELECT id, period_name, start_date::text, end_date::text, is_locked FROM accounting_periods WHERE client_id = $1`,
-    [clientId]
-  );
-  const periods = periodsRes.rows;
+  let periods: Array<{ id: number; period_name: string; start_date: string; end_date: string; is_locked: boolean }> = [];
+  try {
+    const periodsRes = await query<{ id: number; period_name: string; start_date: string; end_date: string; is_locked: boolean }>(
+      `SELECT id, period_name, start_date::text, end_date::text, is_locked FROM accounting_periods WHERE client_id = $1`,
+      [clientId]
+    );
+    periods = periodsRes.rows;
+  } catch {
+    try {
+      const fallbackRes = await query<{ id: number; name?: string; start_date: string; end_date: string; is_locked: boolean }>(
+        `SELECT id, name as period_name, start_date::text, end_date::text, is_locked FROM accounting_periods WHERE client_id = $1`,
+        [clientId]
+      );
+      periods = fallbackRes.rows.map((p: any) => ({
+        id: p.id,
+        period_name: p.period_name || p.name || `${p.start_date} - ${p.end_date}`,
+        start_date: p.start_date,
+        end_date: p.end_date,
+        is_locked: Boolean(p.is_locked),
+      }));
+    } catch {
+      try {
+        const minimalRes = await query<{ id: number; start_date: string; end_date: string; is_locked: boolean }>(
+          `SELECT id, start_date::text, end_date::text, is_locked FROM accounting_periods WHERE client_id = $1`,
+          [clientId]
+        );
+        periods = minimalRes.rows.map(p => ({ ...p, period_name: `${p.start_date} - ${p.end_date}` }));
+      } catch {
+        periods = [];
+      }
+    }
+  }
 
   const clientRes = await query<{ fiscal_year_start_month: number; created_at: string }>(
     `SELECT fiscal_year_start_month, created_at FROM clients WHERE id = $1`,
