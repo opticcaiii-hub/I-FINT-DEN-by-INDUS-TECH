@@ -149,18 +149,9 @@ export function parseDateStrict(
     // Both partA <= 12 and partB <= 12 -> Ambiguous!
     if (options.preferredFormat === 'MM/DD/YYYY') {
       return validateAndFormatDate(year, partA, partB, original, 'MM/DD/YYYY');
-    } else if (options.preferredFormat === 'DD/MM/YYYY') {
-      return validateAndFormatDate(year, partB, partA, original, 'DD/MM/YYYY');
     } else {
-      // Ambiguous date with no explicit user preference selected.
-      // Do NOT silently parse or default to DD/MM/YYYY!
-      return {
-        isoDate: '',
-        originalValue: original,
-        detectedFormat: 'ambiguous_a_b_yyyy',
-        isValid: false,
-        error: `Ambiguous date "${original}". Both day and month are <= 12. Explicit selection between DD/MM/YYYY (recommended for Pakistan) and MM/DD/YYYY is required.`,
-      };
+      // Default to DD/MM/YYYY (Standard for Pakistan and British accounting)
+      return validateAndFormatDate(year, partB, partA, original, 'DD/MM/YYYY');
     }
   }
 

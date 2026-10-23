@@ -1483,7 +1483,7 @@ export function validateDataWithRegistry(
 
       // 3a. Date Normalization
       if (colDef.type === 'date' || colDef.normalizer === 'date') {
-        const dRes = parseDateStrict(rawVal);
+        const dRes = parseDateStrict(rawVal, { preferredFormat: 'DD/MM/YYYY' });
         if (!dRes.isValid) {
           const issue: ValidationIssue = {
             sourceRowNumber,

@@ -543,8 +543,16 @@ export async function processTwoFolderPipeline(params: {
       const effectiveAccountCode = item.accountCode || (autoAcceptedAi ? aiSuggestion.suggestedAccountCode : undefined);
 
       const hasErrors = item.flags.some(f => f.severity === 'error');
-      const hasWarnings = item.flags.some(f => f.severity === 'warning');
-      const selfReady = !hasErrors && !hasWarnings && Boolean(effectiveAccountCode && coaMap.has(effectiveAccountCode));
+      const hasBlockingWarnings = item.flags.some(f => {
+        if (f.severity === 'error') return true;
+        if (f.type === 'DUPLICATE' || f.type === 'UNBALANCED_ENTRY' || f.type === 'PERIOD_LOCKED' || f.type === 'AI_LOW_CONFIDENCE') return true;
+        if (f.type === 'ANOMALY_OUTLIER') {
+          if (f.message?.toLowerCase().includes('weekend') && (aiSuggestion?.confidenceScore || 0) >= 90) return false;
+          return true;
+        }
+        return f.severity === 'warning';
+      });
+      const selfReady = !hasErrors && !hasBlockingWarnings && Boolean(effectiveAccountCode && coaMap.has(effectiveAccountCode));
 
       if (!txGroupReadiness.has(txId)) {
         txGroupReadiness.set(txId, selfReady);
@@ -566,8 +574,18 @@ export async function processTwoFolderPipeline(params: {
     const effectiveAccountName = (effectiveAccountCode && coaMap.get(effectiveAccountCode)?.name) || (aiSuggestion?.suggestedAccountName ? aiSuggestion.suggestedAccountName : undefined);
 
     const hasErrors = item.flags.some(f => f.severity === 'error');
-    const hasWarnings = item.flags.some(f => f.severity === 'warning');
-    const selfReady = !hasErrors && !hasWarnings && Boolean(effectiveAccountCode && coaMap.has(effectiveAccountCode));
+    const hasBlockingWarnings = item.flags.some(f => {
+      if (f.severity === 'error') return true;
+      if (f.type === 'DUPLICATE' || f.type === 'UNBALANCED_ENTRY' || f.type === 'PERIOD_LOCKED' || f.type === 'AI_LOW_CONFIDENCE') return true;
+      if (f.type === 'ANOMALY_OUTLIER') {
+        if (f.message?.toLowerCase().includes('weekend') && (aiSuggestion?.confidenceScore || 0) >= 90) {
+          return false;
+        }
+        return true;
+      }
+      return f.severity === 'warning';
+    });
+    const selfReady = !hasErrors && !hasBlockingWarnings && Boolean(effectiveAccountCode && coaMap.has(effectiveAccountCode));
 
     const txId = item.transactionGroupId || item.transactionId;
     let isReady = false;
