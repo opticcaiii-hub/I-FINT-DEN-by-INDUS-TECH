@@ -45,7 +45,13 @@ export async function POST(req: NextRequest) {
     // We run the same autoMapColumns + applyColumnMappings chain as the
     // file-upload route so that both the pipeline AND the registry overlay
     // see the identical canonical keys (date, debit, credit, description …).
-    const headerKeys = Object.keys(rows[0] || {}).filter((k) => k !== 'rowIndex');
+    const allKeySet = new Set<string>();
+    for (const r of rows.slice(0, 50)) {
+      if (r && typeof r === 'object') {
+        Object.keys(r).forEach((k) => { if (k !== 'rowIndex') allKeySet.add(k); });
+      }
+    }
+    const headerKeys = Array.from(allKeySet);
     let processedRows = rows;
 
     if (headerKeys.length > 0) {

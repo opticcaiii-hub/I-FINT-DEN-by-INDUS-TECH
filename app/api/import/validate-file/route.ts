@@ -154,6 +154,7 @@ export function applyColumnMappings(rows: Record<string, string>[], mappings: an
     // Fall back to 1-based array position only when not provided.
     const originalRowIndex = (row as any).rowIndex;
     const mapped: any = {
+      ...row,
       rowIndex: typeof originalRowIndex === 'number' ? originalRowIndex : i + 1,
     };
     for (const m of mappings) {
