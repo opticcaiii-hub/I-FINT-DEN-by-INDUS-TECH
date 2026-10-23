@@ -1,0 +1,51 @@
+rowIndex,date,description,accountCode,amount,counterparty,referenceNumber
+1,2026-07-22,Service rendered to Apex Stationers (Demo),4020,23400.00,Apex Stationers (Demo),REF-A1001
+2,2026-08-06,Service rendered to Northwind Advisory (Demo),4020,80300.00,Northwind Advisory (Demo),REF-A1002
+3,2026-07-30,Business travel expense,5070,22100.00,,REF-A1003
+4,2026-07-14,Sale of goods to Northwind Advisory (Demo),4010,18300.00,Northwind Advisory (Demo),REF-A1004
+5,2026-07-17,Sale of goods to Harbor Consulting (Demo),4010,95400.00,Harbor Consulting (Demo),REF-A1005
+6,2026-08-14,Collection from customer Skyline Retailers (Demo),,48000.00,Skyline Retailers (Demo),REF-A1006
+7,2026-07-24,MailFlow (Demo) monthly subscription,5050,12800.00,MailFlow (Demo),REF-A1007
+8,2026-08-26,Business travel expense,5070,17500.00,,REF-A1008
+9,2026-07-30,CloudSuite Pro (Demo) monthly subscription,5050,5000.00,CloudSuite Pro (Demo),REF-A1009
+10,2026-07-10,Sale of goods to Bluewave Tech (Demo),4010,78900.00,Bluewave Tech (Demo),REF-A1010
+11,2026-07-24,Internet & phone bill payment,5020,23800.00,,REF-A1011
+12,2026-07-17,Office supplies purchase from Crescent Cloud Services (Demo),5040,4800.00,Crescent Cloud Services (Demo),REF-A1012
+13,2026-07-09,Miscellaneous other income received,4030,5300.00,,REF-A1013
+14,2026-07-27,Payment to vendor Amberlight Studios (Demo),,54900.00,Amberlight Studios (Demo),REF-A1014
+15,2026-08-04,Marketing and promotion expense,5060,20300.00,,REF-A1015
+16,2026-08-13,Office supplies purchase from Golden Gate Foods (Demo),5040,17600.00,Golden Gate Foods (Demo),REF-A1016
+17,2026-08-31,BizTrack Software (Demo) monthly subscription,5050,14300.00,BizTrack Software (Demo),REF-A1017
+18,2026-08-12,Service rendered to Apex Stationers (Demo),4020,77600.00,Apex Stationers (Demo),REF-A1018
+19,2026-07-23,Monthly staff salary disbursement,5030,288400.00,,REF-A1019
+20,2026-07-15,Owner capital contribution,3010,389600.00,,REF-A1020
+21,2026-07-06,Monthly office rent payment,5010,48600.00,,REF-A1021
+22,2026-07-09,Payment to vendor Riverside Traders (Demo),,13500.00,Riverside Traders (Demo),REF-A1022
+23,2026-08-10,Business travel expense,5070,19300.00,,REF-A1023
+24,2026-07-01,Office supplies purchase from Zenith Print Co (Demo),5040,11700.00,Zenith Print Co (Demo),REF-A1024
+25,2026-08-20,MailFlow (Demo) monthly subscription,5050,4400.00,MailFlow (Demo),REF-A1025
+26,2026-07-13,Sale of goods to Skyline Retailers (Demo),4010,82900.00,Skyline Retailers (Demo),REF-A1026
+27,2026-07-17,Marketing and promotion expense,5060,26300.00,,REF-A1027
+28,2026-07-09,Sale of goods to Falcon Traders (Demo),4010,116100.00,Falcon Traders (Demo),REF-A1028
+29,2026-08-03,Service rendered to Orchid Boutique (Demo),4020,39200.00,Orchid Boutique (Demo),REF-A1029
+30,2026-08-06,Collection from customer Golden Gate Foods (Demo),,46300.00,Golden Gate Foods (Demo),REF-A1030
+31,2026-07-21,Gas bill payment,5020,21100.00,,REF-A1031
+32,2026-07-08,Service rendered to Silverline Logistics (Demo),4020,36200.00,Silverline Logistics (Demo),REF-A1032
+33,2026-08-21,Business travel expense,5070,13600.00,,REF-A1033
+34,2026-08-27,Service rendered to Apex Stationers (Demo),4020,13700.00,Apex Stationers (Demo),REF-A1034
+35,2026-08-10,Internet & phone bill payment,5020,23400.00,,REF-A1035
+36,2026-08-14,Monthly staff salary disbursement,5030,200700.00,,REF-A1036
+37,2026-07-29,Sale of goods to Orchid Boutique (Demo),4010,105700.00,Orchid Boutique (Demo),REF-A1037
+38,2026-08-24,Sale of goods to Riverside Traders (Demo),4010,73600.00,Riverside Traders (Demo),REF-A1038
+39,2026-08-27,Marketing and promotion expense,5060,26800.00,,REF-A1039
+40,2026-08-11,Office supplies purchase from Falcon Traders (Demo),5040,4600.00,Falcon Traders (Demo),REF-A1040
+41,2026-08-04,Gas bill payment,5020,11300.00,,REF-A1041
+42,2026-07-24,BizTrack Software (Demo) monthly subscription,5050,10700.00,BizTrack Software (Demo),REF-A1042
+43,2026-07-24,Monthly staff salary disbursement,5030,238500.00,,REF-A1043
+44,2026-07-30,Monthly office rent payment,5010,48800.00,,REF-A1044
+45,2026-07-24,Office supplies purchase from Orchid Boutique (Demo),5040,17800.00,Orchid Boutique (Demo),REF-A1045
+46,2026-07-13,Marketing and promotion expense,5060,3100.00,,REF-A1046
+47,2026-08-31,Sale of goods to Pearl Logistics (Demo),4010,77800.00,Pearl Logistics (Demo),REF-A1047
+48,2026-07-28,Office supplies purchase from Golden Gate Foods (Demo),5040,4700.00,Golden Gate Foods (Demo),REF-A1048
+49,2026-07-07,Payment to vendor Pearl Logistics (Demo),,25700.00,Pearl Logistics (Demo),REF-A1049
+50,2026-08-06,Service rendered to Riverside Traders (Demo),4020,60900.00,Riverside Traders (Demo),REF-A1050
