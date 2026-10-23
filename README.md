@@ -11,32 +11,34 @@
 
 ## 📌 Executive Summary
 
-**I-FINT DEN by INDUS TECH** is an end-to-end financial intelligence platform designed to eliminate the single most painful bottleneck in accounting: **converting messy, disorganized raw transaction data into clean, compliant, double-entry General Ledger records and instant financial statements.**
+**I-FINT DEN by INDUS TECH** is an end-to-end autonomous financial intelligence platform built to eliminate the single most painful bottleneck in accounting: **converting messy, disorganized raw transaction data into clean, compliant, double-entry General Ledger records and instant financial statements.**
+
+By unifying high-precision column normalization, machine-learning outlier detection (Isolation Forest & TreeSHAP), large language model categorizations, and automated Chart of Accounts resolution, **I-FINT DEN** cuts accounting ingestion cycles from hours to seconds.
 
 ---
 
-## 🛑 The Problem: The Spreadsheet Nightmare
+## 🛑 The Problem: The Spreadsheet Chaos
 
 Every business, accounting firm, and finance professional faces the same daily struggle:
 
-1. **Unformatted, Chaotic Data**: Transaction exports from banks, POS systems, payment gateways, and vendors arrive in completely different, inconsistent formats (messy CSVs, poorly aligned Excel sheets, unformatted text).
-2. **Exhausting Manual Categorization**: Accountants spend hours manually guessing account codes, verifying dates, formatting amounts, and correcting typos.
-3. **Hidden Anomalies & Outliers**: High-risk outliers, accidental duplicate transactions, and unbalanced debits/credits slip past human reviewers and contaminate financial records.
-4. **Delayed Financial Reporting**: Generating a Trial Balance, Balance Sheet, or Profit & Loss statement often takes days or weeks of manual reconciliation.
+1. **Unformatted, Inconsistent Data**: Raw exports from banks, POS terminals, payment gateways, and vendors arrive in chaotic formats with conflicting headers, mixed date conventions, and unstructured narrations.
+2. **Exhausting Manual Categorization**: Accountants spend hours manually deciphering descriptions, guessing account codes, and keying in journal entries line by line.
+3. **Hidden Anomalies & Outliers**: Dangerous typos, accidental duplicate charges, unusual weekend spikes, and unbalanced debits/credits slip past human reviewers and contaminate financial ledgers.
+4. **Delayed Reporting**: Generating a Trial Balance, Balance Sheet, or Profit & Loss statement often requires days or weeks of manual reconciliation across disparate spreadsheets.
 
 ---
 
-## 💡 The Solution: I-FINT DEN
+## 💡 The Solution: I-FINT DEN 4-Step Pipeline
 
 **I-FINT DEN by INDUS TECH** automates this entire pipeline into a fast, intuitive, 4-step workflow:
 
 ```
-[ Messy Data / CSV / Clipboard ]
-              │
-              ▼
+[ Raw CSV / Bank Statement / Clipboard ]
+                   │
+                   ▼
    ⚡ Intelligent Column Auto-Mapper & Header Detector
-              │
-              ▼
+                   │
+                   ▼
   ┌────────────────────────────────────────────────────────┐
   │         📂 THE TWO-FOLDER PARTITIONING PIPELINE        │
   │                                                        │
@@ -67,26 +69,55 @@ Every business, accounting firm, and finance professional faces the same daily s
 
 ---
 
+## 🧪 Ready-to-Use Quick Test Data
+
+Want to test the platform instantly? Copy the standardized bank statement dataset below and paste it directly into the Studio:
+
+```csv
+Date,Description,Debit,Credit,Balance
+3/3/2026,Fund Transfer - Karachi Mart Distributors,,215000,1140000
+3/3/2026,Utility Bill - K-Electric,18500,,1121500
+3/5/2026,Fund Transfer - Sindh Electronics House,,98000,1199500
+3/7/2026,Fund Transfer - Bilal General Store,,54000,1186000
+3/8/2026,Salary Disbursement - Payroll March,542000,,644000
+3/10/2026,Fund Transfer - Al-Rehman Traders,,133000,820000
+3/12/2026,Fund Transfer - Noor Textiles,,88000,906800
+3/13/2026,Cheque Payment - Metro Fuel Station,21000,,885800
+3/14/2026,Fund Transfer - Hyderabad Wholesale Co,,176000,1061800
+3/15/2026,Rent Payment - Warehouse,60000,,1001800
+3/17/2026,Cheque Payment - Al-Noor Stationery,8500,,1038300
+3/18/2026,Fund Transfer - Shan Enterprises,,102000,1140300
+3/20/2026,Fund Transfer - Metro Cash & Carry Hyderabad,,64000,1175300
+3/22/2026,Fund Transfer - Zainab Traders,,91000,1251300
+3/26/2026,Fund Transfer - Karachi Mart Distributors,,145000,1389800
+3/28/2026,Fund Transfer - Sindh Electronics House,,72000,1452000
+3/30/2026,Fund Transfer - Bilal General Store,,58000,1472000
+```
+
+> **Direct file access**: This dataset is also stored in the repository at [`test-data/sample-bank-statement.csv`](./test-data/sample-bank-statement.csv).
+
+---
+
 ## 🌟 Key Capabilities & Features
 
 ### 1. Universal Clipboard & File Ingestion
 - **Paste & Go**: Copy messy unformatted rows directly from your clipboard or upload any CSV/Excel (`.xlsx`, `.xls`) file.
-- **Smart Header Detection**: Automatically identifies where the table headers start, discarding noisy header banners or empty rows.
-- **Canonical Column Mapping**: Intelligently auto-maps columns (dates, narrations, voucher IDs, debit/credit amounts) to standardized accounting fields.
+- **Smart Header Detection**: Automatically identifies where table headers start, discarding noisy header banners, empty rows, or multi-line metadata.
+- **Broad Alias Dictionary**: Intelligently auto-maps columns (dates, narrations, voucher IDs, debit/credit/withdrawal/deposit amounts) to standardized accounting fields.
 
 ### 2. The Two-Folder Intelligent Partitioning
 Every transaction batch is automatically partitioned into two clear buckets:
-- **Folder A (Ready to Post)**: Zero-defect transactions that are balanced, properly categorized, and fully validated.
-- **Folder B (Review Required)**: Transactions that have missing Chart of Accounts codes, unbalanced debits/credits, or suspicious outlier flags.
+- **Folder A (Ready to Post)**: Zero-defect transactions that are balanced, properly categorized with Chart of Accounts codes, and fully validated.
+- **Folder B (Review Required)**: Transactions that have missing Chart of Accounts codes, unusual statistical outliers, or ambiguous fields that require accountant confirmation.
 
 ### 3. Machine Learning Anomaly Detection & AI Suggestions
-- **In-Process Isolation Forest**: Calculates anomaly scores based on statistical path-depths and interquartile deviation.
-- **TreeSHAP Explanations**: Human-readable explanations for why a transaction was flagged (e.g., *"Amount is 4.8x larger than account median"*).
-- **1-Click AI Categorization**: Real-time AI recommendations with confidence ratings (e.g., *"Suggest Account 5040 - Utilities (94% confidence)"*).
-- **Batch Acceptance**: 1-click batch accept all high-confidence suggestions (>85%) to immediately clear Folder B into Folder A.
+- **In-Process Isolation Forest**: Calculates statistical anomaly scores based on tree depth and historical volume patterns.
+- **TreeSHAP Explanations**: Human-readable explanations for why a transaction was flagged (e.g., *"Amount is 6x larger than account median"*).
+- **1-Click AI Categorization**: Real-time AI recommendations with confidence ratings (e.g., *"Suggest Account 5040 - Utilities (93% confidence)"*).
+- **Batch Acceptance**: 1-click batch accept all high-confidence suggestions ($\ge 85\%$) to immediately clear Folder B into Folder A.
 
 ### 4. Zero-Leak Atomic Ledger Posting
-- **Atomic Transactions**: When you click **Post to Ledger**, all entries are written into PostgreSQL within a single ACID transaction. If a single line fails validation or violates a locked accounting period, the entire batch rolls back cleanly.
+- **Atomic Transactions**: When you click **Post to Ledger**, all entries are written into PostgreSQL within a single ACID transaction. If a single line fails validation, the entire batch rolls back cleanly.
 - **Integer Paisa Precision**: All amounts are computed in integer paisa/cents ($1.00 = 100 paisa) to eliminate JavaScript floating-point rounding errors.
 - **SHA-256 Cryptographic Audit Chain**: Every transaction is cryptographically linked with its prior hash to guarantee SOC2/IFRS auditability.
 
@@ -147,11 +178,11 @@ GEMINI_API_KEY=your-gemini-api-key
 ```
 
 ### 4. Initialize Database Schema & Seed Data
-Run the self-contained database migration script with one command:
+Run the self-contained database setup script:
 ```bash
 npm run init-db
 ```
-This automatically creates the core tables (`firms`, `clients`, `account_types`, `chart_of_accounts`, `accounting_periods`, `journal_entries`, `journal_lines`, `ai_feedback`) and seeds the standard general ledger Chart of Accounts.
+This automatically creates the core tables (`firms`, `clients`, `account_types`, `chart_of_accounts`, `accounting_periods`, `journal_entries`, `journal_lines`, `ai_feedback`, `audit_log`) and seeds the standard general ledger Chart of Accounts.
 
 ### 5. Launch Development Server
 ```bash
