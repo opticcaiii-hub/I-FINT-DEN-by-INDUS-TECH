@@ -538,9 +538,13 @@ export async function processTwoFolderPipeline(params: {
   for (const item of parsedRows) {
     const txId = item.transactionGroupId || item.transactionId;
     if (txId) {
+      const aiSuggestion = aiSuggestionMap.get(item.rowIndex);
+      const autoAcceptedAi = !item.accountCode && aiSuggestion && aiSuggestion.confidenceScore >= 80 && !aiSuggestion.isFlaggedForReview && Boolean(aiSuggestion.suggestedAccountCode && coaMap.has(aiSuggestion.suggestedAccountCode));
+      const effectiveAccountCode = item.accountCode || (autoAcceptedAi ? aiSuggestion.suggestedAccountCode : undefined);
+
       const hasErrors = item.flags.some(f => f.severity === 'error');
       const hasWarnings = item.flags.some(f => f.severity === 'warning');
-      const selfReady = !hasErrors && !hasWarnings && Boolean(item.accountCode && coaMap.has(item.accountCode));
+      const selfReady = !hasErrors && !hasWarnings && Boolean(effectiveAccountCode && coaMap.has(effectiveAccountCode));
 
       if (!txGroupReadiness.has(txId)) {
         txGroupReadiness.set(txId, selfReady);
@@ -556,9 +560,14 @@ export async function processTwoFolderPipeline(params: {
     const { anomalyScore, shap } = rowAnomalyData.get(item.rowIndex) || { anomalyScore: 0, shap: [] };
     const aiSuggestion = aiSuggestionMap.get(item.rowIndex);
 
+    // Auto-accept high-confidence AI suggestions (>= 80% confidence, not flagged for manual review, valid in active COA)
+    const autoAcceptedAi = !item.accountCode && aiSuggestion && aiSuggestion.confidenceScore >= 80 && !aiSuggestion.isFlaggedForReview && Boolean(aiSuggestion.suggestedAccountCode && coaMap.has(aiSuggestion.suggestedAccountCode));
+    const effectiveAccountCode = item.accountCode || (autoAcceptedAi ? aiSuggestion.suggestedAccountCode : undefined);
+    const effectiveAccountName = (effectiveAccountCode && coaMap.get(effectiveAccountCode)?.name) || (aiSuggestion?.suggestedAccountName ? aiSuggestion.suggestedAccountName : undefined);
+
     const hasErrors = item.flags.some(f => f.severity === 'error');
     const hasWarnings = item.flags.some(f => f.severity === 'warning');
-    const selfReady = !hasErrors && !hasWarnings && Boolean(item.accountCode && coaMap.has(item.accountCode));
+    const selfReady = !hasErrors && !hasWarnings && Boolean(effectiveAccountCode && coaMap.has(effectiveAccountCode));
 
     const txId = item.transactionGroupId || item.transactionId;
     let isReady = false;
@@ -592,8 +601,8 @@ export async function processTwoFolderPipeline(params: {
         memo: item.memo || undefined,
         date: item.date,
         description: item.description,
-        accountCode: item.accountCode || (aiSuggestion?.suggestedAccountCode ? aiSuggestion.suggestedAccountCode : undefined),
-        accountName: (item.accountCode && coaMap.get(item.accountCode)?.name) || (aiSuggestion?.suggestedAccountCode ? aiSuggestion.suggestedAccountName : undefined),
+        accountCode: effectiveAccountCode || (aiSuggestion?.suggestedAccountCode ? aiSuggestion.suggestedAccountCode : undefined),
+        accountName: effectiveAccountName || (aiSuggestion?.suggestedAccountName ? aiSuggestion.suggestedAccountName : undefined),
         amountPaisa: item.amountPaisa,
         debitPaisa: item.debitPaisa,
         creditPaisa: item.creditPaisa,

@@ -350,6 +350,16 @@ export function applyRegistryOverlay(
     }
   }
 
+  // If any readyRows were downgraded, synchronize the arrays and counts
+  if (downgraded > 0 && Array.isArray(pipelineResult.readyRows)) {
+    const stillReady = pipelineResult.readyRows.filter((r: any) => r.status === 'ready_to_post');
+    const newlyFlagged = pipelineResult.readyRows.filter((r: any) => r.status === 'review_required');
+    pipelineResult.readyRows = stillReady;
+    pipelineResult.flaggedRows = [...(pipelineResult.flaggedRows ?? []), ...newlyFlagged];
+    pipelineResult.readyToPostCount = stillReady.length;
+    pipelineResult.reviewRequiredCount = pipelineResult.flaggedRows.length;
+  }
+
   return {
     dataType: regValidation.dataType,
     subType: regValidation.subType,
