@@ -155,6 +155,18 @@ export async function initDatabase() {
   await sql`CREATE INDEX IF NOT EXISTS idx_journal_lines_entry ON journal_lines(journal_entry_id)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_journal_lines_account ON journal_lines(account_id)`;
 
+  // 8b. Document Sequences
+  console.log('Creating document_sequences table...');
+  await sql`
+    CREATE TABLE IF NOT EXISTS document_sequences (
+      client_id     INTEGER NOT NULL REFERENCES clients(id),
+      source_type   TEXT NOT NULL,
+      fiscal_year   INTEGER NOT NULL,
+      next_number   BIGINT NOT NULL DEFAULT 1,
+      PRIMARY KEY (client_id, source_type, fiscal_year)
+    );
+  `;
+
   // 9. AI Feedback Loop
   console.log('Creating ai_feedback table...');
   await sql`

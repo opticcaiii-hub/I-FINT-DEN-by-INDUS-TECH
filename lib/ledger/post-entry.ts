@@ -205,6 +205,21 @@ async function allocateEntryNumber(
   const prefix = SOURCE_PREFIX[sourceType];
   const year = parseInt(entryDate.substring(0, 4), 10);
 
+  // Ensure document_sequences exists
+  try {
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS document_sequences (
+        client_id     INTEGER NOT NULL,
+        source_type   TEXT NOT NULL,
+        fiscal_year   INTEGER NOT NULL,
+        next_number   BIGINT NOT NULL DEFAULT 1,
+        PRIMARY KEY (client_id, source_type, fiscal_year)
+      )
+    `);
+  } catch {
+    // Already exists or created concurrently
+  }
+
   // Atomic initialization query (subquery MAX syncs legacy rows if sequence counter does not exist)
   await client.query(
     `INSERT INTO document_sequences (client_id, source_type, fiscal_year, next_number)

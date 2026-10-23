@@ -38,6 +38,15 @@ async function patch() {
       created_at TIMESTAMPTZ NOT NULL DEFAULT now()
     );
   `;
+  await sql`
+    CREATE TABLE IF NOT EXISTS document_sequences (
+      client_id     INTEGER NOT NULL,
+      source_type   TEXT NOT NULL,
+      fiscal_year   INTEGER NOT NULL,
+      next_number   BIGINT NOT NULL DEFAULT 1,
+      PRIMARY KEY (client_id, source_type, fiscal_year)
+    );
+  `;
   console.log('✅ Patch applied successfully to Neon database!');
 }
 
