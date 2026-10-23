@@ -1,0 +1,32 @@
+{
+  "name": "i-fint-den",
+  "version": "1.0.0",
+  "private": true,
+  "description": "I-FINT DEN by INDUS TECH — Autonomous AI Financial Ingestion Pipeline & Double-Entry Financial Engine",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "init-db": "npx tsx scripts/init-db.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@vercel/blob": "^2.8.0",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
+    "jose": "^6.2.8",
+    "next": "16.3.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "xlsx": "^0.18.5",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tsx": "^4.23.7",
+    "typescript": "^5"
+  }
+}
